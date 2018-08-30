@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "ServiceBase.h"
+#import "Session.h"
 
 @interface ViewController ()
 
@@ -16,9 +18,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (IBAction)FirstStep:(id)sender {
+    [[[ServiceBase alloc] init] execute:@"https://api.hitbtc.com/api/2/public/ticker" parameters:nil result:^(BOOL sucesso, id result){
+        if (sucesso) {
+            [Session setSession:[[Session alloc] initWithDictionary:@{@"KEYCERTIFICATESERVER" : @"Mp01DT29cODNDpNxPkKksKdKiqfruN8DsX3FUfMDwZE=" }]];
+        }
+    }];
+}
+
+- (IBAction)SecondStep:(id)sender {
+    [[[ServiceBase alloc] init] execute:@"https://api.hitbtc.com/api/2/public/ticker" parameters:nil result:^(BOOL sucesso, id result){
+        if (sucesso) {
+            NSLog(@"Certificates Ok");
+        }else{
+            NSLog(@"Certificates diferentes");
+        }
+        
+    }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
